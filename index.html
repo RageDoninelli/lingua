@@ -80,6 +80,31 @@
     color: var(--muted);
     margin-top: 2px;
   }
+  .cat-selector{
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 10px 2px 2px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .cat-selector::-webkit-scrollbar{ display:none; }
+  .cat-pill{
+    flex-shrink:0;
+    background: transparent;
+    border: 1px solid rgba(232,130,60,0.4);
+    color: var(--muted);
+    font-size: 0.78rem;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .cat-pill.active{
+    background: var(--ember);
+    border-color: var(--ember);
+    color: var(--ink);
+    font-weight: 600;
+  }
 
   main{
     flex: 1;
@@ -190,7 +215,7 @@
 
   <header>
     <div class="brand">V.I.V.A. Lingua</div>
-    <div class="category" id="category-label">Categoría: Animales</div>
+    <div class="cat-selector" id="cat-selector"></div>
   </header>
 
   <main>
@@ -240,6 +265,305 @@
       {es:'mariposa',en:'butterfly',it:'farfalla',de:'Schmetterling',ca:'papallona'},
       {es:'tortuga',en:'turtle',it:'tartaruga',de:'Tartaruga',ca:'tortuga'},
       {es:'pato',en:'duck',it:'anatra',de:'Ente',ca:'ànec'}
+    ],
+    comida: [
+      {es:'pan',en:'bread',it:'pane',de:'Brot',ca:'pa'},
+      {es:'agua',en:'water',it:'acqua',de:'Wasser',ca:'aigua'},
+      {es:'leche',en:'milk',it:'latte',de:'Milch',ca:'llet'},
+      {es:'huevo',en:'egg',it:'uovo',de:'Ei',ca:'ou'},
+      {es:'queso',en:'cheese',it:'formaggio',de:'Käse',ca:'formatge'},
+      {es:'carne',en:'meat',it:'carne',de:'Fleisch',ca:'carn'},
+      {es:'pollo',en:'chicken',it:'pollo',de:'Hähnchen',ca:'pollastre'},
+      {es:'pescado',en:'fish (food)',it:'pesce',de:'Fisch',ca:'peix'},
+      {es:'arroz',en:'rice',it:'riso',de:'Reis',ca:'arròs'},
+      {es:'pasta',en:'pasta',it:'pasta',de:'Nudeln',ca:'pasta'},
+      {es:'manzana',en:'apple',it:'mela',de:'Apfel',ca:'poma'},
+      {es:'plátano',en:'banana',it:'banana',de:'Banane',ca:'plàtan'},
+      {es:'naranja',en:'orange',it:'arancia',de:'Orange',ca:'taronja'},
+      {es:'uva',en:'grape',it:'uva',de:'Traube',ca:'raïm'},
+      {es:'fresa',en:'strawberry',it:'fragola',de:'Erdbeere',ca:'maduixa'},
+      {es:'tomate',en:'tomato',it:'pomodoro',de:'Tomate',ca:'tomàquet'},
+      {es:'patata',en:'potato',it:'patata',de:'Kartoffel',ca:'patata'},
+      {es:'cebolla',en:'onion',it:'cipolla',de:'Zwiebel',ca:'ceba'},
+      {es:'zanahoria',en:'carrot',it:'carota',de:'Karotte',ca:'pastanaga'},
+      {es:'lechuga',en:'lettuce',it:'lattuga',de:'Salat',ca:'enciam'},
+      {es:'azúcar',en:'sugar',it:'zucchero',de:'Zucker',ca:'sucre'},
+      {es:'sal',en:'salt',it:'sale',de:'Salz',ca:'sal'},
+      {es:'aceite',en:'oil',it:'olio',de:'Öl',ca:'oli'},
+      {es:'café',en:'coffee',it:'caffè',de:'Kaffee',ca:'cafè'},
+      {es:'té',en:'tea',it:'tè',de:'Tee',ca:'te'}
+    ],
+    casa: [
+      {es:'casa',en:'house',it:'casa',de:'Haus',ca:'casa'},
+      {es:'puerta',en:'door',it:'porta',de:'Tür',ca:'porta'},
+      {es:'ventana',en:'window',it:'finestra',de:'Fenster',ca:'finestra'},
+      {es:'mesa',en:'table',it:'tavolo',de:'Tisch',ca:'taula'},
+      {es:'silla',en:'chair',it:'sedia',de:'Stuhl',ca:'cadira'},
+      {es:'cama',en:'bed',it:'letto',de:'Bett',ca:'llit'},
+      {es:'cocina',en:'kitchen',it:'cucina',de:'Küche',ca:'cuina'},
+      {es:'baño',en:'bathroom',it:'bagno',de:'Badezimmer',ca:'bany'},
+      {es:'sala',en:'living room',it:'soggiorno',de:'Wohnzimmer',ca:'sala d\'estar'},
+      {es:'jardín',en:'garden',it:'giardino',de:'Garten',ca:'jardí'},
+      {es:'llave',en:'key',it:'chiave',de:'Schlüssel',ca:'clau'},
+      {es:'lámpara',en:'lamp',it:'lampada',de:'Lampe',ca:'làmpara'},
+      {es:'espejo',en:'mirror',it:'specchio',de:'Spiegel',ca:'mirall'},
+      {es:'armario',en:'closet',it:'armadio',de:'Schrank',ca:'armari'},
+      {es:'sofá',en:'sofa',it:'divano',de:'Sofa',ca:'sofà'},
+      {es:'techo',en:'ceiling',it:'soffitto',de:'Decke',ca:'sostre'},
+      {es:'pared',en:'wall',it:'parete',de:'Wand',ca:'paret'},
+      {es:'escalera',en:'stairs',it:'scala',de:'Treppe',ca:'escala'},
+      {es:'toalla',en:'towel',it:'asciugamano',de:'Handtuch',ca:'tovallola'},
+      {es:'plato',en:'plate',it:'piatto',de:'Teller',ca:'plat'}
+    ],
+    familia: [
+      {es:'madre',en:'mother',it:'madre',de:'Mutter',ca:'mare'},
+      {es:'padre',en:'father',it:'padre',de:'Vater',ca:'pare'},
+      {es:'hermano',en:'brother',it:'fratello',de:'Bruder',ca:'germà'},
+      {es:'hermana',en:'sister',it:'sorella',de:'Schwester',ca:'germana'},
+      {es:'hijo',en:'son',it:'figlio',de:'Sohn',ca:'fill'},
+      {es:'hija',en:'daughter',it:'figlia',de:'Tochter',ca:'filla'},
+      {es:'abuelo',en:'grandfather',it:'nonno',de:'Großvater',ca:'avi'},
+      {es:'abuela',en:'grandmother',it:'nonna',de:'Großmutter',ca:'àvia'},
+      {es:'tío',en:'uncle',it:'zio',de:'Onkel',ca:'oncle'},
+      {es:'tía',en:'aunt',it:'zia',de:'Tante',ca:'tia'},
+      {es:'primo',en:'cousin',it:'cugino',de:'Cousin',ca:'cosí'},
+      {es:'esposo',en:'husband',it:'marito',de:'Ehemann',ca:'marit'},
+      {es:'esposa',en:'wife',it:'moglie',de:'Ehefrau',ca:'esposa'},
+      {es:'bebé',en:'baby',it:'bebè',de:'Baby',ca:'nadó'},
+      {es:'familia',en:'family',it:'famiglia',de:'Familie',ca:'família'}
+    ],
+    colores: [
+      {es:'rojo',en:'red',it:'rosso',de:'Rot',ca:'vermell'},
+      {es:'azul',en:'blue',it:'blu',de:'Blau',ca:'blau'},
+      {es:'amarillo',en:'yellow',it:'giallo',de:'Gelb',ca:'groc'},
+      {es:'verde',en:'green',it:'verde',de:'Grün',ca:'verd'},
+      {es:'negro',en:'black',it:'nero',de:'Schwarz',ca:'negre'},
+      {es:'blanco',en:'white',it:'bianco',de:'Weiß',ca:'blanc'},
+      {es:'gris',en:'gray',it:'grigio',de:'Grau',ca:'gris'},
+      {es:'anaranjado',en:'orange',it:'arancione',de:'Orange',ca:'taronja'},
+      {es:'morado',en:'purple',it:'viola',de:'Lila',ca:'morat'},
+      {es:'rosa',en:'pink',it:'rosa',de:'Rosa',ca:'rosa'},
+      {es:'marrón',en:'brown',it:'marrone',de:'Braun',ca:'marró'},
+      {es:'dorado',en:'golden',it:'dorato',de:'Golden',ca:'daurat'}
+    ],
+    numeros: [
+      {es:'uno',en:'one',it:'uno',de:'eins',ca:'u'},
+      {es:'dos',en:'two',it:'due',de:'zwei',ca:'dos'},
+      {es:'tres',en:'three',it:'tre',de:'drei',ca:'tres'},
+      {es:'cuatro',en:'four',it:'quattro',de:'vier',ca:'quatre'},
+      {es:'cinco',en:'five',it:'cinque',de:'fünf',ca:'cinc'},
+      {es:'seis',en:'six',it:'sei',de:'sechs',ca:'sis'},
+      {es:'siete',en:'seven',it:'sette',de:'sieben',ca:'set'},
+      {es:'ocho',en:'eight',it:'otto',de:'acht',ca:'vuit'},
+      {es:'nueve',en:'nine',it:'nove',de:'neun',ca:'nou'},
+      {es:'diez',en:'ten',it:'dieci',de:'zehn',ca:'deu'},
+      {es:'once',en:'eleven',it:'undici',de:'elf',ca:'onze'},
+      {es:'doce',en:'twelve',it:'dodici',de:'zwölf',ca:'dotze'},
+      {es:'trece',en:'thirteen',it:'tredici',de:'dreizehn',ca:'tretze'},
+      {es:'catorce',en:'fourteen',it:'quattordici',de:'vierzehn',ca:'catorze'},
+      {es:'quince',en:'fifteen',it:'quindici',de:'fünfzehn',ca:'quinze'},
+      {es:'dieciséis',en:'sixteen',it:'sedici',de:'sechzehn',ca:'setze'},
+      {es:'diecisiete',en:'seventeen',it:'diciassette',de:'siebzehn',ca:'disset'},
+      {es:'dieciocho',en:'eighteen',it:'diciotto',de:'achtzehn',ca:'divuit'},
+      {es:'diecinueve',en:'nineteen',it:'diciannove',de:'neunzehn',ca:'dinou'},
+      {es:'veinte',en:'twenty',it:'venti',de:'zwanzig',ca:'vint'}
+    ],
+    cuerpo: [
+      {es:'cabeza',en:'head',it:'testa',de:'Kopf',ca:'cap'},
+      {es:'ojo',en:'eye',it:'occhio',de:'Auge',ca:'ull'},
+      {es:'nariz',en:'nose',it:'naso',de:'Nase',ca:'nas'},
+      {es:'boca',en:'mouth',it:'bocca',de:'Mund',ca:'boca'},
+      {es:'oreja',en:'ear',it:'orecchio',de:'Ohr',ca:'orella'},
+      {es:'mano',en:'hand',it:'mano',de:'Hand',ca:'mà'},
+      {es:'pie',en:'foot',it:'piede',de:'Fuß',ca:'peu'},
+      {es:'brazo',en:'arm',it:'braccio',de:'Arm',ca:'braç'},
+      {es:'pierna',en:'leg',it:'gamba',de:'Bein',ca:'cama'},
+      {es:'dedo',en:'finger',it:'dito',de:'Finger',ca:'dit'},
+      {es:'espalda',en:'back',it:'schiena',de:'Rücken',ca:'esquena'},
+      {es:'estómago',en:'stomach',it:'stomaco',de:'Magen',ca:'estómac'},
+      {es:'corazón',en:'heart',it:'cuore',de:'Herz',ca:'cor'},
+      {es:'diente',en:'tooth',it:'dente',de:'Zahn',ca:'dent'},
+      {es:'pelo',en:'hair',it:'capelli',de:'Haar',ca:'cabell'}
+    ],
+    ropa: [
+      {es:'camisa',en:'shirt',it:'camicia',de:'Hemd',ca:'camisa'},
+      {es:'pantalón',en:'pants',it:'pantaloni',de:'Hose',ca:'pantalons'},
+      {es:'vestido',en:'dress',it:'vestito',de:'Kleid',ca:'vestit'},
+      {es:'falda',en:'skirt',it:'gonna',de:'Rock',ca:'faldilla'},
+      {es:'zapato',en:'shoe',it:'scarpa',de:'Schuh',ca:'sabata'},
+      {es:'chaqueta',en:'jacket',it:'giacca',de:'Jacke',ca:'jaqueta'},
+      {es:'abrigo',en:'coat',it:'cappotto',de:'Mantel',ca:'abric'},
+      {es:'sombrero',en:'hat',it:'cappello',de:'Hut',ca:'barret'},
+      {es:'calcetín',en:'sock',it:'calzino',de:'Socke',ca:'mitjó'},
+      {es:'bufanda',en:'scarf',it:'sciarpa',de:'Schal',ca:'bufanda'},
+      {es:'guante',en:'glove',it:'guanto',de:'Handschuh',ca:'guant'},
+      {es:'cinturón',en:'belt',it:'cintura',de:'Gürtel',ca:'cinturó'},
+      {es:'camiseta',en:'t-shirt',it:'maglietta',de:'T-Shirt',ca:'samarreta'},
+      {es:'suéter',en:'sweater',it:'maglione',de:'Pullover',ca:'jersei'},
+      {es:'short',en:'shorts',it:'pantaloncini',de:'kurze Hose',ca:'pantalons curts'}
+    ],
+    profesiones: [
+      {es:'médico',en:'doctor',it:'medico',de:'Arzt',ca:'metge'},
+      {es:'maestro',en:'teacher',it:'maestro',de:'Lehrer',ca:'mestre'},
+      {es:'abogado',en:'lawyer',it:'avvocato',de:'Anwalt',ca:'advocat'},
+      {es:'enfermero',en:'nurse',it:'infermiere',de:'Krankenpfleger',ca:'infermer'},
+      {es:'cocinero',en:'cook',it:'cuoco',de:'Koch',ca:'cuiner'},
+      {es:'policía',en:'police officer',it:'poliziotto',de:'Polizist',ca:'policia'},
+      {es:'bombero',en:'firefighter',it:'pompiere',de:'Feuerwehrmann',ca:'bomber'},
+      {es:'ingeniero',en:'engineer',it:'ingegnere',de:'Ingenieur',ca:'enginyer'},
+      {es:'piloto',en:'pilot',it:'pilota',de:'Pilot',ca:'pilot'},
+      {es:'músico',en:'musician',it:'musicista',de:'Musiker',ca:'músic'},
+      {es:'periodista',en:'journalist',it:'giornalista',de:'Journalist',ca:'periodista'},
+      {es:'agricultor',en:'farmer',it:'agricoltore',de:'Landwirt',ca:'agricultor'},
+      {es:'electricista',en:'electrician',it:'elettricista',de:'Elektriker',ca:'electricista'},
+      {es:'peluquero',en:'hairdresser',it:'parrucchiere',de:'Friseur',ca:'perruquer'},
+      {es:'vendedor',en:'salesperson',it:'venditore',de:'Verkäufer',ca:'venedor'}
+    ],
+    dias: [
+      {es:'lunes',en:'Monday',it:'lunedì',de:'Montag',ca:'dilluns'},
+      {es:'martes',en:'Tuesday',it:'martedì',de:'Dienstag',ca:'dimarts'},
+      {es:'miércoles',en:'Wednesday',it:'mercoledì',de:'Mittwoch',ca:'dimecres'},
+      {es:'jueves',en:'Thursday',it:'giovedì',de:'Donnerstag',ca:'dijous'},
+      {es:'viernes',en:'Friday',it:'venerdì',de:'Freitag',ca:'divendres'},
+      {es:'sábado',en:'Saturday',it:'sabato',de:'Samstag',ca:'dissabte'},
+      {es:'domingo',en:'Sunday',it:'domenica',de:'Sonntag',ca:'diumenge'}
+    ],
+    meses: [
+      {es:'enero',en:'January',it:'gennaio',de:'Januar',ca:'gener'},
+      {es:'febrero',en:'February',it:'febbraio',de:'Februar',ca:'febrer'},
+      {es:'marzo',en:'March',it:'marzo',de:'März',ca:'març'},
+      {es:'abril',en:'April',it:'aprile',de:'April',ca:'abril'},
+      {es:'mayo',en:'May',it:'maggio',de:'Mai',ca:'maig'},
+      {es:'junio',en:'June',it:'giugno',de:'Juni',ca:'juny'},
+      {es:'julio',en:'July',it:'luglio',de:'Juli',ca:'juliol'},
+      {es:'agosto',en:'August',it:'agosto',de:'August',ca:'agost'},
+      {es:'septiembre',en:'September',it:'settembre',de:'September',ca:'setembre'},
+      {es:'octubre',en:'October',it:'ottobre',de:'Oktober',ca:'octubre'},
+      {es:'noviembre',en:'November',it:'novembre',de:'November',ca:'novembre'},
+      {es:'diciembre',en:'December',it:'dicembre',de:'Dezember',ca:'desembre'}
+    ],
+    verbos: [
+      {es:'ser',en:'to be',it:'essere',de:'sein',ca:'ser'},
+      {es:'tener',en:'to have',it:'avere',de:'haben',ca:'tenir'},
+      {es:'hacer',en:'to do / make',it:'fare',de:'machen',ca:'fer'},
+      {es:'ir',en:'to go',it:'andare',de:'gehen',ca:'anar'},
+      {es:'comer',en:'to eat',it:'mangiare',de:'essen',ca:'menjar'},
+      {es:'beber',en:'to drink',it:'bere',de:'trinken',ca:'beure'},
+      {es:'dormir',en:'to sleep',it:'dormire',de:'schlafen',ca:'dormir'},
+      {es:'hablar',en:'to speak',it:'parlare',de:'sprechen',ca:'parlar'},
+      {es:'ver',en:'to see',it:'vedere',de:'sehen',ca:'veure'},
+      {es:'querer',en:'to want',it:'volere',de:'wollen',ca:'voler'},
+      {es:'poder',en:'to be able to',it:'potere',de:'können',ca:'poder'},
+      {es:'saber',en:'to know',it:'sapere',de:'wissen',ca:'saber'},
+      {es:'venir',en:'to come',it:'venire',de:'kommen',ca:'venir'},
+      {es:'dar',en:'to give',it:'dare',de:'geben',ca:'donar'},
+      {es:'decir',en:'to say',it:'dire',de:'sagen',ca:'dir'},
+      {es:'trabajar',en:'to work',it:'lavorare',de:'arbeiten',ca:'treballar'},
+      {es:'estudiar',en:'to study',it:'studiare',de:'studieren',ca:'estudiar'},
+      {es:'leer',en:'to read',it:'leggere',de:'lesen',ca:'llegir'},
+      {es:'escribir',en:'to write',it:'scrivere',de:'schreiben',ca:'escriure'},
+      {es:'jugar',en:'to play',it:'giocare',de:'spielen',ca:'jugar'}
+    ],
+    transporte: [
+      {es:'coche',en:'car',it:'macchina',de:'Auto',ca:'cotxe'},
+      {es:'autobús',en:'bus',it:'autobus',de:'Bus',ca:'autobús'},
+      {es:'tren',en:'train',it:'treno',de:'Zug',ca:'tren'},
+      {es:'avión',en:'airplane',it:'aereo',de:'Flugzeug',ca:'avió'},
+      {es:'bicicleta',en:'bicycle',it:'bicicletta',de:'Fahrrad',ca:'bicicleta'},
+      {es:'barco',en:'boat',it:'barca',de:'Boot',ca:'vaixell'},
+      {es:'moto',en:'motorcycle',it:'moto',de:'Motorrad',ca:'moto'},
+      {es:'taxi',en:'taxi',it:'taxi',de:'Taxi',ca:'taxi'},
+      {es:'metro',en:'subway',it:'metro',de:'U-Bahn',ca:'metro'},
+      {es:'camión',en:'truck',it:'camion',de:'Lastwagen',ca:'camió'},
+      {es:'calle',en:'street',it:'strada',de:'Straße',ca:'carrer'},
+      {es:'carretera',en:'highway',it:'autostrada',de:'Autobahn',ca:'carretera'},
+      {es:'aeropuerto',en:'airport',it:'aeroporto',de:'Flughafen',ca:'aeroport'},
+      {es:'estación',en:'station',it:'stazione',de:'Bahnhof',ca:'estació'},
+      {es:'puerto',en:'port',it:'porto',de:'Hafen',ca:'port'}
+    ],
+    escuela: [
+      {es:'libro',en:'book',it:'libro',de:'Buch',ca:'llibre'},
+      {es:'cuaderno',en:'notebook',it:'quaderno',de:'Heft',ca:'quadern'},
+      {es:'lápiz',en:'pencil',it:'matita',de:'Bleistift',ca:'llapis'},
+      {es:'bolígrafo',en:'pen',it:'penna',de:'Kugelschreiber',ca:'bolígraf'},
+      {es:'mochila',en:'backpack',it:'zaino',de:'Rucksack',ca:'motxilla'},
+      {es:'escuela',en:'school',it:'scuola',de:'Schule',ca:'escola'},
+      {es:'profesor',en:'teacher',it:'professore',de:'Lehrer',ca:'professor'},
+      {es:'estudiante',en:'student',it:'studente',de:'Student',ca:'estudiant'},
+      {es:'examen',en:'exam',it:'esame',de:'Prüfung',ca:'examen'},
+      {es:'pizarra',en:'blackboard',it:'lavagna',de:'Tafel',ca:'pissarra'},
+      {es:'computadora',en:'computer',it:'computer',de:'Computer',ca:'ordinador'},
+      {es:'teléfono',en:'phone',it:'telefono',de:'Telefon',ca:'telèfon'},
+      {es:'oficina',en:'office',it:'ufficio',de:'Büro',ca:'oficina'},
+      {es:'reunión',en:'meeting',it:'riunione',de:'Besprechung',ca:'reunió'},
+      {es:'correo',en:'mail',it:'posta',de:'Post',ca:'correu'}
+    ],
+    clima: [
+      {es:'sol',en:'sun',it:'sole',de:'Sonne',ca:'sol'},
+      {es:'lluvia',en:'rain',it:'pioggia',de:'Regen',ca:'pluja'},
+      {es:'nieve',en:'snow',it:'neve',de:'Schnee',ca:'neu'},
+      {es:'viento',en:'wind',it:'vento',de:'Wind',ca:'vent'},
+      {es:'nube',en:'cloud',it:'nuvola',de:'Wolke',ca:'núvol'},
+      {es:'calor',en:'heat',it:'caldo',de:'Hitze',ca:'calor'},
+      {es:'frío',en:'cold',it:'freddo',de:'Kälte',ca:'fred'},
+      {es:'tormenta',en:'storm',it:'tempesta',de:'Sturm',ca:'tempesta'},
+      {es:'niebla',en:'fog',it:'nebbia',de:'Nebel',ca:'boira'},
+      {es:'arcoíris',en:'rainbow',it:'arcobaleno',de:'Regenbogen',ca:'arc de Sant Martí'}
+    ],
+    adjetivos: [
+      {es:'grande',en:'big',it:'grande',de:'groß',ca:'gran'},
+      {es:'pequeño',en:'small',it:'piccolo',de:'klein',ca:'petit'},
+      {es:'bonito',en:'pretty',it:'bello',de:'schön',ca:'bonic'},
+      {es:'feo',en:'ugly',it:'brutto',de:'hässlich',ca:'lleig'},
+      {es:'alto',en:'tall',it:'alto',de:'groß',ca:'alt'},
+      {es:'bajo',en:'short',it:'basso',de:'klein',ca:'baix'},
+      {es:'rápido',en:'fast',it:'veloce',de:'schnell',ca:'ràpid'},
+      {es:'lento',en:'slow',it:'lento',de:'langsam',ca:'lent'},
+      {es:'feliz',en:'happy',it:'felice',de:'glücklich',ca:'feliç'},
+      {es:'triste',en:'sad',it:'triste',de:'traurig',ca:'trist'},
+      {es:'nuevo',en:'new',it:'nuovo',de:'neu',ca:'nou'},
+      {es:'viejo',en:'old',it:'vecchio',de:'alt',ca:'vell'},
+      {es:'fácil',en:'easy',it:'facile',de:'einfach',ca:'fàcil'},
+      {es:'difícil',en:'difficult',it:'difficile',de:'schwierig',ca:'difícil'},
+      {es:'caliente',en:'hot',it:'caldo',de:'heiß',ca:'calent'},
+      {es:'frío',en:'cold',it:'freddo',de:'kalt',ca:'fred'},
+      {es:'limpio',en:'clean',it:'pulito',de:'sauber',ca:'net'},
+      {es:'sucio',en:'dirty',it:'sporco',de:'schmutzig',ca:'brut'},
+      {es:'fuerte',en:'strong',it:'forte',de:'stark',ca:'fort'},
+      {es:'débil',en:'weak',it:'debole',de:'schwach',ca:'feble'},
+      {es:'rico',en:'rich',it:'ricco',de:'reich',ca:'ric'},
+      {es:'pobre',en:'poor',it:'povero',de:'arm',ca:'pobre'},
+      {es:'joven',en:'young',it:'giovane',de:'jung',ca:'jove'},
+      {es:'gordo',en:'fat',it:'grasso',de:'dick',ca:'gras'},
+      {es:'delgado',en:'thin',it:'magro',de:'dünn',ca:'prim'},
+      {es:'largo',en:'long',it:'lungo',de:'lang',ca:'llarg'},
+      {es:'corto',en:'short',it:'corto',de:'kurz',ca:'curt'},
+      {es:'oscuro',en:'dark',it:'scuro',de:'dunkel',ca:'fosc'},
+      {es:'claro',en:'clear',it:'chiaro',de:'hell',ca:'clar'},
+      {es:'bueno',en:'good',it:'buono',de:'gut',ca:'bo'},
+      {es:'malo',en:'bad',it:'cattivo',de:'schlecht',ca:'dolent'},
+      {es:'cansado',en:'tired',it:'stanco',de:'müde',ca:'cansat'},
+      {es:'ocupado',en:'busy',it:'occupato',de:'beschäftigt',ca:'ocupat'},
+      {es:'inteligente',en:'smart',it:'intelligente',de:'intelligent',ca:'intel·ligent'},
+      {es:'divertido',en:'fun',it:'divertente',de:'lustig',ca:'divertit'},
+      {es:'aburrido',en:'boring',it:'noioso',de:'langweilig',ca:'avorrit'},
+      {es:'peligroso',en:'dangerous',it:'pericoloso',de:'gefährlich',ca:'perillós'},
+      {es:'caro',en:'expensive',it:'caro',de:'teuer',ca:'car'},
+      {es:'barato',en:'cheap',it:'economico',de:'billig',ca:'barat'}
+    ],
+    lugares: [
+      {es:'ciudad',en:'city',it:'città',de:'Stadt',ca:'ciutat'},
+      {es:'parque',en:'park',it:'parco',de:'Park',ca:'parc'},
+      {es:'tienda',en:'store',it:'negozio',de:'Geschäft',ca:'botiga'},
+      {es:'mercado',en:'market',it:'mercato',de:'Markt',ca:'mercat'},
+      {es:'hospital',en:'hospital',it:'ospedale',de:'Krankenhaus',ca:'hospital'},
+      {es:'banco',en:'bank',it:'banca',de:'Bank',ca:'banc'},
+      {es:'iglesia',en:'church',it:'chiesa',de:'Kirche',ca:'església'},
+      {es:'restaurante',en:'restaurant',it:'ristorante',de:'Restaurant',ca:'restaurant'},
+      {es:'museo',en:'museum',it:'museo',de:'Museum',ca:'museu'},
+      {es:'biblioteca',en:'library',it:'biblioteca',de:'Bibliothek',ca:'biblioteca'},
+      {es:'plaza',en:'square',it:'piazza',de:'Platz',ca:'plaça'},
+      {es:'farmacia',en:'pharmacy',it:'farmacia',de:'Apotheke',ca:'farmàcia'}
     ]
   };
 
@@ -253,10 +577,31 @@
 
   const SAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.24v8.48c1.23-.95 2-2.47 2-4.24z"/></svg>';
 
+  const CATEGORY_LABELS = {
+    animales: 'Animales',
+    comida: 'Comida',
+    casa: 'Casa',
+    familia: 'Familia',
+    colores: 'Colores',
+    numeros: 'Números',
+    cuerpo: 'Cuerpo',
+    ropa: 'Ropa',
+    profesiones: 'Profesiones',
+    dias: 'Días',
+    meses: 'Meses',
+    verbos: 'Verbos',
+    transporte: 'Transporte',
+    escuela: 'Escuela/Oficina',
+    clima: 'Clima',
+    adjetivos: 'Adjetivos',
+    lugares: 'Lugares'
+  };
+
+  let currentCat = 'animales';
   let deck = [];
   let pointer = 0;
   let seenCount = 0;
-  const total = CATEGORIES.animales.length;
+  let total = CATEGORIES[currentCat].length;
 
   function shuffle(arr){
     const a = [...arr];
@@ -268,10 +613,35 @@
   }
 
   function newRound(){
-    deck = shuffle(CATEGORIES.animales);
+    deck = shuffle(CATEGORIES[currentCat]);
     pointer = 0;
+    seenCount = 0;
+    total = CATEGORIES[currentCat].length;
   }
-  newRound();
+
+  function renderCatSelector(){
+    const sel = document.getElementById('cat-selector');
+    sel.innerHTML = '';
+    Object.keys(CATEGORIES).forEach((key) => {
+      const btn = document.createElement('button');
+      btn.className = 'cat-pill' + (key === currentCat ? ' active' : '');
+      btn.textContent = CATEGORY_LABELS[key];
+      btn.addEventListener('click', () => {
+        if(key === currentCat) return;
+        currentCat = key;
+        newRound();
+        renderCatSelector();
+        wordTurnoEl.textContent = '';
+        hintEl.textContent = 'Toca la antorcha para sacar una palabra';
+        LANGS.forEach((lang) => {
+          document.getElementById('card-' + lang.code).classList.remove('show');
+          document.getElementById('word-' + lang.code).textContent = '';
+        });
+        progressEl.textContent = '0 / ' + total + ' palabras vistas';
+      });
+      sel.appendChild(btn);
+    });
+  }
 
   const cardsEl = document.getElementById('cards');
   const hintEl = document.getElementById('hint');
@@ -336,6 +706,10 @@
   }
 
   torchBtn.addEventListener('click', pullWord);
+
+  newRound();
+  renderCatSelector();
+  progressEl.textContent = '0 / ' + total + ' palabras vistas';
 
   // Registro del service worker
   if('serviceWorker' in navigator){
