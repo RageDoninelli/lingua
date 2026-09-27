@@ -1,0 +1,15 @@
+{
+  "name": "V.I.V.A. Lingua",
+  "short_name": "VIVA Lingua",
+  "description": "Vocabulario en 5 idiomas a la vez — español, inglés, italiano, alemán y catalán.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1C1017",
+  "theme_color": "#1C1017",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

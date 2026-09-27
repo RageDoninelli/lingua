@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>V.I.V.A. Lingua</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#1C1017">
+<style>
+  :root{
+    --cave: #1C1017;
+    --cave-2: #2A1220;
+    --plum: #4A1F35;
+    --ember: #E8823C;
+    --ember-2: #F3A864;
+    --parchment: #F4E8D8;
+    --ink: #2B1B22;
+    --gold: #C99A4B;
+    --muted: #B99A9E;
+    box-sizing: border-box;
+  }
+  *{box-sizing:inherit; margin:0; padding:0;}
+  html,body{height:100%;}
+  body{
+    background: radial-gradient(120% 90% at 50% -10%, var(--plum) 0%, var(--cave) 55%);
+    color: var(--parchment);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100%;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    overflow-x: hidden;
+  }
+  .app{
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 32px;
+  }
+
+  /* Install banner */
+  #install-banner{
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background: var(--plum);
+    border: 1px solid rgba(232,130,60,0.35);
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+  }
+  #install-banner p{ font-size: 0.85rem; color: var(--parchment); line-height:1.3; }
+  #install-banner .actions{ display:flex; gap:8px; flex-shrink:0; }
+  #install-banner button{
+    font-size: 0.8rem;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  #install-btn{ background: var(--ember); color: var(--ink); }
+  #dismiss-btn{ background: transparent; color: var(--muted); }
+
+  header{
+    text-align:center;
+    margin-bottom: 8px;
+  }
+  .brand{
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    color: var(--ember-2);
+  }
+  .category{
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  main{
+    flex: 1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content: center;
+    gap: 24px;
+    padding: 12px 0;
+  }
+
+  .torch-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 10px;
+  }
+  .torch-btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    width: 96px;
+    height: 96px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .torch-btn svg{ width: 100%; height: 100%; filter: drop-shadow(0 0 18px rgba(232,130,60,0.55)); }
+  .torch-btn.pulled svg{ animation: flicker 0.5s ease; }
+  @keyframes flicker{
+    0%{ transform: scale(1); }
+    30%{ transform: scale(1.14) rotate(-2deg); }
+    60%{ transform: scale(0.95) rotate(2deg); }
+    100%{ transform: scale(1); }
+  }
+  .hint{ font-size: 0.85rem; color: var(--muted); text-align:center; }
+
+  .word-en-turno{
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-size: 2.2rem;
+    text-align:center;
+    color: var(--parchment);
+    min-height: 2.6rem;
+  }
+
+  .cards{
+    width:100%;
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .cards .card:nth-child(5){ grid-column: 1 / span 2; max-width: 48%; margin: 0 auto; }
+
+  .card{
+    background: var(--parchment);
+    color: var(--ink);
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align:center;
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap: 6px;
+  }
+  .card.show{ opacity:1; transform: translateY(0) scale(1); }
+  .card .lang{
+    font-size: 0.7rem;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .card .word{
+    font-family: Georgia, "Iowan Old Style", serif;
+    font-size: 1.15rem;
+    line-height:1.2;
+  }
+  .card button.say{
+    margin-top: 2px;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    color: var(--plum);
+  }
+  .card button.say svg{ width:16px; height:16px; }
+
+  footer{
+    text-align:center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding-top: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div id="install-banner">
+    <p>Instala V.I.V.A. Lingua en tu pantalla de inicio.</p>
+    <div class="actions">
+      <button id="install-btn">Instalar</button>
+      <button id="dismiss-btn">✕</button>
+    </div>
+  </div>
+
+  <header>
+    <div class="brand">V.I.V.A. Lingua</div>
+    <div class="category" id="category-label">Categoría: Animales</div>
+  </header>
+
+  <main>
+    <div class="torch-wrap">
+      <button class="torch-btn" id="torch-btn" aria-label="Sacar una palabra">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50 10c4 14-8 20-8 31 0 8 6 13 8 13s8-5 8-13c0-6-4-10-4-15 9 6 17 17 17 29 0 15-13 27-29 27s-29-12-29-27c0-21 20-30 37-45z" fill="#E8823C"/>
+          <path d="M50 46c2 7-4 9-4 15 0 4 3 6 4 6s4-2 4-6c0-2-1-4-1-6 4 3 7 7 7 12 0 6-5 10-10 10s-10-4-10-10c0-9 7-13 10-21z" fill="#F4E8D8"/>
+        </svg>
+      </button>
+      <p class="hint" id="hint">Toca la antorcha para sacar una palabra</p>
+    </div>
+
+    <div class="word-en-turno" id="word-turno"></div>
+
+    <div class="cards" id="cards"></div>
+  </main>
+
+  <footer id="progress">0 / 25 palabras vistas</footer>
+</div>
+
+<script>
+  const CATEGORIES = {
+    animales: [
+      {es:'pez',en:'fish',it:'pesce',de:'Fisch',ca:'peix'},
+      {es:'perro',en:'dog',it:'cane',de:'Hund',ca:'gos'},
+      {es:'gato',en:'cat',it:'gatto',de:'Katze',ca:'gat'},
+      {es:'pájaro',en:'bird',it:'uccello',de:'Vogel',ca:'ocell'},
+      {es:'caballo',en:'horse',it:'cavallo',de:'Pferd',ca:'cavall'},
+      {es:'vaca',en:'cow',it:'mucca',de:'Kuh',ca:'vaca'},
+      {es:'oveja',en:'sheep',it:'pecora',de:'Schaf',ca:'ovella'},
+      {es:'cerdo',en:'pig',it:'maiale',de:'Schwein',ca:'porc'},
+      {es:'gallina',en:'hen',it:'gallina',de:'Huhn',ca:'gallina'},
+      {es:'ratón',en:'mouse',it:'topo',de:'Maus',ca:'ratolí'},
+      {es:'conejo',en:'rabbit',it:'coniglio',de:'Kaninchen',ca:'conill'},
+      {es:'león',en:'lion',it:'leone',de:'Löwe',ca:'lleó'},
+      {es:'tigre',en:'tiger',it:'tigre',de:'Tiger',ca:'tigre'},
+      {es:'elefante',en:'elephant',it:'elefante',de:'Elefant',ca:'elefant'},
+      {es:'oso',en:'bear',it:'orso',de:'Bär',ca:'ós'},
+      {es:'lobo',en:'wolf',it:'lupo',de:'Wolf',ca:'llop'},
+      {es:'zorro',en:'fox',it:'volpe',de:'Fuchs',ca:'guineu'},
+      {es:'mono',en:'monkey',it:'scimmia',de:'Affe',ca:'mico'},
+      {es:'serpiente',en:'snake',it:'serpente',de:'Schlange',ca:'serp'},
+      {es:'rana',en:'frog',it:'rana',de:'Frosch',ca:'granota'},
+      {es:'araña',en:'spider',it:'ragno',de:'Spinne',ca:'aranya'},
+      {es:'abeja',en:'bee',it:'ape',de:'Biene',ca:'abella'},
+      {es:'mariposa',en:'butterfly',it:'farfalla',de:'Schmetterling',ca:'papallona'},
+      {es:'tortuga',en:'turtle',it:'tartaruga',de:'Tartaruga',ca:'tortuga'},
+      {es:'pato',en:'duck',it:'anatra',de:'Ente',ca:'ànec'}
+    ]
+  };
+
+  const LANGS = [
+    {code:'es', label:'Español', voice:'es-ES'},
+    {code:'en', label:'English', voice:'en-US'},
+    {code:'it', label:'Italiano', voice:'it-IT'},
+    {code:'de', label:'Deutsch', voice:'de-DE'},
+    {code:'ca', label:'Català', voice:'ca-ES'}
+  ];
+
+  const SAY_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-.77-3.29-2-4.24v8.48c1.23-.95 2-2.47 2-4.24z"/></svg>';
+
+  let deck = [];
+  let pointer = 0;
+  let seenCount = 0;
+  const total = CATEGORIES.animales.length;
+
+  function shuffle(arr){
+    const a = [...arr];
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+
+  function newRound(){
+    deck = shuffle(CATEGORIES.animales);
+    pointer = 0;
+  }
+  newRound();
+
+  const cardsEl = document.getElementById('cards');
+  const hintEl = document.getElementById('hint');
+  const wordTurnoEl = document.getElementById('word-turno');
+  const torchBtn = document.getElementById('torch-btn');
+  const progressEl = document.getElementById('progress');
+
+  LANGS.forEach((lang) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'card-' + lang.code;
+    card.innerHTML =
+      '<div class="lang">' + lang.label + '</div>' +
+      '<div class="word" id="word-' + lang.code + '"></div>' +
+      '<button class="say" aria-label="Escuchar" data-lang="' + lang.code + '">' + SAY_ICON + '</button>';
+    cardsEl.appendChild(card);
+  });
+
+  function speak(text, voiceCode){
+    if(!('speechSynthesis' in window)) return;
+    try{
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = voiceCode;
+      speechSynthesis.cancel();
+      speechSynthesis.speak(u);
+    }catch(e){ /* silencioso si el navegador no soporta el idioma */ }
+  }
+
+  cardsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('button.say');
+    if(!btn) return;
+    const code = btn.getAttribute('data-lang');
+    const wordEl = document.getElementById('word-' + code);
+    const lang = LANGS.find(l => l.code === code);
+    if(wordEl && wordEl.textContent) speak(wordEl.textContent, lang.voice);
+  });
+
+  function pullWord(){
+    if(pointer >= deck.length) newRound();
+    const item = deck[pointer];
+    pointer++;
+    seenCount = Math.min(seenCount + 1, total);
+
+    torchBtn.classList.remove('pulled');
+    void torchBtn.offsetWidth;
+    torchBtn.classList.add('pulled');
+
+    hintEl.textContent = 'Toca de nuevo para la siguiente palabra';
+    wordTurnoEl.textContent = '';
+
+    LANGS.forEach((lang, i) => {
+      const card = document.getElementById('card-' + lang.code);
+      const wordEl = document.getElementById('word-' + lang.code);
+      card.classList.remove('show');
+      setTimeout(() => {
+        wordEl.textContent = item[lang.code];
+        card.classList.add('show');
+      }, 90 * i);
+    });
+
+    progressEl.textContent = seenCount + ' / ' + total + ' palabras vistas';
+  }
+
+  torchBtn.addEventListener('click', pullWord);
+
+  // Registro del service worker
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+  }
+
+  // Banner de instalación PWA
+  let deferredPrompt;
+  const banner = document.getElementById('install-banner');
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    banner.style.display = 'flex';
+  });
+  document.getElementById('install-btn').addEventListener('click', async () => {
+    if(!deferredPrompt) return;
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    banner.style.display = 'none';
+  });
+  document.getElementById('dismiss-btn').addEventListener('click', () => {
+    banner.style.display = 'none';
+  });
+</script>
+</body>
+</html>
